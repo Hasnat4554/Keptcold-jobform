@@ -1,65 +1,200 @@
-import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
+    <div className="min-h-screen bg-gray-50">
+      {/* Header */}
+      <header className="bg-[#003366] text-white py-6">
+        <div className="container mx-auto px-4">
+          <h1 className="text-4xl font-bold">
+            <span className="font-normal">KEPT</span>
+            <span className="font-bold">COLD</span>
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+          <p className="text-blue-200 mt-1">Fast & Reliable Commercial Refrigeration Repairs</p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+      </header>
+
+      {/* Hero Section */}
+      <main className="container mx-auto px-4 py-16">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-5xl font-bold text-gray-900 mb-6">
+            24/7 Emergency Refrigeration Services
+          </h2>
+          <p className="text-xl text-gray-600 mb-8">
+            Professional refrigeration repair and maintenance for businesses across the UK
+          </p>
+
+          {/* CTA Button */}
+          <Link
+            href="/book-service"
+            className="inline-block bg-[#003366] text-white text-xl font-semibold py-4 px-12 rounded-lg
+              hover:bg-[#004488] transition-colors duration-200 shadow-lg"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            Book a Service Call-Out
+          </Link>
+        </div>
+
+        {/* Service Options */}
+        <div className="grid md:grid-cols-3 gap-8 mt-16 max-w-6xl mx-auto">
+          {/* Standard */}
+          <div className="bg-white rounded-lg shadow-lg overflow-hidden">
+            <div className="bg-[#003366] text-white p-6">
+              <h3 className="text-2xl font-bold mb-2">Standard Call-Out</h3>
+              <p className="text-3xl font-bold">£120 <span className="text-lg font-normal">+ VAT</span></p>
+            </div>
+            <div className="p-6">
+              <ul className="space-y-3 text-gray-700">
+                <li className="flex items-center gap-2">
+                  <svg className="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                  </svg>
+                  Next available slot
+                </li>
+                <li className="flex items-center gap-2">
+                  <svg className="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                  </svg>
+                  Mon-Fri, 8am-6pm
+                </li>
+                <li className="flex items-center gap-2">
+                  <svg className="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                  </svg>
+                  36h response time
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          {/* Same Day */}
+          <div className="bg-white rounded-lg shadow-lg overflow-hidden border-2 border-orange-500">
+            <div className="bg-orange-500 text-white p-6">
+              <h3 className="text-2xl font-bold mb-2">Same Day Service</h3>
+              <p className="text-3xl font-bold">£180 <span className="text-lg font-normal">+ VAT</span></p>
+            </div>
+            <div className="p-6">
+              <ul className="space-y-3 text-gray-700">
+                <li className="flex items-center gap-2">
+                  <svg className="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                  </svg>
+                  Visit today
+                </li>
+                <li className="flex items-center gap-2">
+                  <svg className="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                  </svg>
+                  Mon-Sun, 8am-6pm
+                </li>
+                <li className="flex items-center gap-2">
+                  <svg className="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                  </svg>
+                  24h response time
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          {/* Emergency */}
+          <div className="bg-white rounded-lg shadow-lg overflow-hidden">
+            <div className="bg-red-500 text-white p-6">
+              <h3 className="text-2xl font-bold mb-2">Emergency 4-Hour</h3>
+              <p className="text-3xl font-bold">£240 <span className="text-lg font-normal">+ VAT</span></p>
+            </div>
+            <div className="p-6">
+              <ul className="space-y-3 text-gray-700">
+                <li className="flex items-center gap-2">
+                  <svg className="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                  </svg>
+                  4-hour arrival
+                </li>
+                <li className="flex items-center gap-2">
+                  <svg className="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                  </svg>
+                  24/7 availability
+                </li>
+                <li className="flex items-center gap-2">
+                  <svg className="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                  </svg>
+                  Priority response
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        {/* Features */}
+        <div className="mt-20 max-w-6xl mx-auto">
+          <h3 className="text-3xl font-bold text-center text-gray-900 mb-12">
+            Why Choose KeptCold?
+          </h3>
+          <div className="grid md:grid-cols-4 gap-8">
+            <div className="text-center">
+              <div className="bg-[#003366] w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <h4 className="font-semibold text-lg mb-2">Fast Response</h4>
+              <p className="text-gray-600">24/7 emergency service available</p>
+            </div>
+            <div className="text-center">
+              <div className="bg-[#003366] w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <h4 className="font-semibold text-lg mb-2">Certified Engineers</h4>
+              <p className="text-gray-600">Fully qualified technicians</p>
+            </div>
+            <div className="text-center">
+              <div className="bg-[#003366] w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+                </svg>
+              </div>
+              <h4 className="font-semibold text-lg mb-2">Transparent Pricing</h4>
+              <p className="text-gray-600">No hidden fees or charges</p>
+            </div>
+            <div className="text-center">
+              <div className="bg-[#003366] w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
+              <h4 className="font-semibold text-lg mb-2">Guaranteed Work</h4>
+              <p className="text-gray-600">All repairs fully guaranteed</p>
+            </div>
+          </div>
+        </div>
+
+        {/* CTA Section */}
+        <div className="mt-20 bg-[#003366] text-white rounded-lg p-12 text-center max-w-4xl mx-auto">
+          <h3 className="text-3xl font-bold mb-4">Ready to Book Your Service?</h3>
+          <p className="text-xl mb-8 text-blue-200">
+            Get your refrigeration issues fixed quickly by our expert engineers
+          </p>
+          <Link
+            href="/book-service"
+            className="inline-block bg-white text-[#003366] text-lg font-semibold py-4 px-10 rounded-lg
+              hover:bg-gray-100 transition-colors duration-200"
           >
-            Documentation
-          </a>
+            Book Now
+          </Link>
         </div>
       </main>
+
+      {/* Footer */}
+      <footer className="bg-gray-900 text-white py-8 mt-20">
+        <div className="container mx-auto px-4 text-center">
+          <p>&copy; 2024 KeptCold. All rights reserved.</p>
+          <p className="text-gray-400 mt-2">Fast & Reliable Commercial Refrigeration Repairs</p>
+        </div>
+      </footer>
     </div>
   );
 }

@@ -91,7 +91,7 @@ export default function Step1BusinessDetails({ data, onUpdate, onNext }: Props) 
             type="text"
             value={data.businessAddress}
             onChange={(e) => handleChange('businessAddress', e.target.value)}
-            placeholder="Enter text-gray-800 complete business address"
+            placeholder="Enter complete business address"
             className={`w-full px-4 py-3 text-gray-800 border rounded-lg focus:ring-2 focus:ring-[#003366] focus:border-transparent
               ${errors.businessAddress ? 'border-red-500' : 'border-gray-300'}
             `}

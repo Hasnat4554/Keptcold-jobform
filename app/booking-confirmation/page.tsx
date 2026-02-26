@@ -118,7 +118,7 @@ function BookingConfirmationContent() {
               </Link>
               <button
                 onClick={() => window.print()}
-                className="flex-1 bg-gray-200 text-gray-700 py-3 px-6 rounded-lg font-semibold
+                className="flex-1 cursor-pointer bg-gray-200 text-gray-700 py-3 px-6 rounded-lg font-semibold
                   hover:bg-gray-300 transition-colors duration-200"
               >
                 Print Confirmation

@@ -194,7 +194,7 @@ export default function Step1BusinessDetails({ data, onUpdate, onNext }: Props) 
         <div className="pt-4">
           <button
             type="submit"
-            className="w-full bg-[#003366] text-white py-4 px-6 rounded-lg font-semibold text-lg
+            className="w-full cursor-pointer bg-[#003366] text-white py-4 px-6 rounded-lg font-semibold text-lg
               hover:bg-[#004488] transition-colors duration-200 flex items-center justify-center gap-2"
           >
             Next Step

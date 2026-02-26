@@ -81,6 +81,29 @@ function PaymentForm({
           }),
         });
 
+     
+        try {
+          await fetch(
+            "https://bevvy-bullet.app.n8n.cloud/webhook/86704905-129a-48b1-889a-1e7bdec90f17",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                businessDetails,
+                faultDetails,
+                serviceType,
+                totalPrice: totalWithVAT,
+                paymentIntentId: paymentIntent.id,
+              }),
+            },
+          );
+        } catch (webhookErr) {
+          console.error("Failed to send data to webhook:", webhookErr);
+          // non-fatal; we still redirect the user
+        }
+
         // Redirect to confirmation page
         window.location.href = `/booking-confirmation?payment_intent=${paymentIntent.id}`;
       }
@@ -263,7 +286,7 @@ export default function Step4Payment(props: Props) {
   const totalWithVAT = totalPrice * 1.2;
 
   useEffect(() => {
-    // Create PaymentIntent
+
     fetch("/api/create-payment-intent", {
       method: "POST",
       headers: {

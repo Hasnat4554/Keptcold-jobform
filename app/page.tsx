@@ -17,7 +17,7 @@ export default function Home() {
       {/* Hero Section */}
       <main className="container mx-auto px-4 py-16">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-5xl font-bold text-gray-900 mb-6">
+          <h2 className="text-2xl sm:text-3xl md:text-5xl font-bold text-gray-900 mb-6">
             24/7 Emergency Refrigeration Services
           </h2>
           <p className="text-xl text-gray-600 mb-8">
@@ -157,7 +157,7 @@ export default function Home() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
               </div>
-              <h4 className="font-semibold text-lg mb-2">Fast Response</h4>
+              <h4 className="font-semibold text-gray-900 text-lg mb-2">Fast Response</h4>
               <p className="text-gray-600">24/7 emergency service available</p>
             </div>
             <div className="text-center">
@@ -166,7 +166,7 @@ export default function Home() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
               </div>
-              <h4 className="font-semibold text-lg mb-2">Certified Engineers</h4>
+              <h4 className="font-semibold text-gray-900 text-lg mb-2">Certified Engineers</h4>
               <p className="text-gray-600">Fully qualified technicians</p>
             </div>
             <div className="text-center">
@@ -175,7 +175,7 @@ export default function Home() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
                 </svg>
               </div>
-              <h4 className="font-semibold text-lg mb-2">Transparent Pricing</h4>
+              <h4 className="font-semibold text-gray-900 text-lg mb-2">Transparent Pricing</h4>
               <p className="text-gray-600">No hidden fees or charges</p>
             </div>
             <div className="text-center">
@@ -184,7 +184,7 @@ export default function Home() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
               </div>
-              <h4 className="font-semibold text-lg mb-2">Guaranteed Work</h4>
+              <h4 className="font-semibold text-gray-900 text-lg mb-2">Guaranteed Work</h4>
               <p className="text-gray-600">All repairs fully guaranteed</p>
             </div>
           </div>

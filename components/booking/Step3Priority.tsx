@@ -87,6 +87,22 @@ export default function Step3Priority({
                 </svg>
                 <span className="text-black">8 AM - 6 PM</span>
               </div>
+              <div className="flex items-start gap-2">
+                <svg
+                  className="w-5 h-5 text-[#003366] flex-shrink-0 mt-0.5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M5 13l4 4L19 7"
+                  />
+                </svg>
+                <span className="text-black">Includes 1st 1h labour</span>
+              </div>
             </div>
           </div>
           {selectedService === "standard" && (
@@ -158,6 +174,22 @@ export default function Step3Priority({
                   />
                 </svg>
                 <span className="text-black">8 AM - 6 PM</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <svg
+                  className="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M5 13l4 4L19 7"
+                  />
+                </svg>
+                <span className="text-black">Includes 1st 1h labour</span>
               </div>
             </div>
           </div>
@@ -232,6 +264,22 @@ export default function Step3Priority({
                   />
                 </svg>
                 <span className="text-black">24/7 Service</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <svg
+                  className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M5 13l4 4L19 7"
+                  />
+                </svg>
+                <span className="text-black">Includes 1st 1h labour</span>
               </div>
             </div>
           </div>

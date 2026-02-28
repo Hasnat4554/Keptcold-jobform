@@ -33,6 +33,8 @@ export default function Step1BusinessDetails({ data, onUpdate, onNext }: Props) 
     }
     if (!data.contactPhone.trim()) {
       newErrors.contactPhone = 'Contact phone is required';
+    } else if (data.contactPhone.replace(/\s/g, '').length !== 11) {
+      newErrors.contactPhone = 'Phone number must be exactly 11 digits';
     }
     if (!data.contactEmail.trim()) {
       newErrors.contactEmail = 'Contact email is required';

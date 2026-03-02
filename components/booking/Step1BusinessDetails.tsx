@@ -174,7 +174,7 @@ export default function Step1BusinessDetails({ data, onUpdate, onNext }: Props) 
           )}
         </div>
 
-        {/* Site Access Hours */}
+      
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Site Access Hours <span className="text-red-500">*</span>

@@ -67,7 +67,7 @@ function PaymentForm({
         setIsProcessing(false);
       } else if (paymentIntent && paymentIntent.status === "succeeded") {
         // Payment successful, send emails
-        await fetch("/api/send-booking-emails", {
+        const emailResponse = await fetch("/api/send-booking-emails", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -81,7 +81,9 @@ function PaymentForm({
           }),
         });
 
-     
+        const emailData = await emailResponse.json();
+        const bookingReference = emailData.bookingReference;
+
         try {
           await fetch(
             "https://bevvy-bullet.app.n8n.cloud/webhook/86704905-129a-48b1-889a-1e7bdec90f17",
@@ -96,6 +98,7 @@ function PaymentForm({
                 serviceType,
                 totalPrice: totalWithVAT,
                 paymentIntentId: paymentIntent.id,
+                bookingReference: bookingReference,
               }),
             },
           );
@@ -105,7 +108,7 @@ function PaymentForm({
         }
 
         // Redirect to confirmation page
-        window.location.href = `/booking-confirmation?payment_intent=${paymentIntent.id}`;
+        window.location.href = `/booking-confirmation?payment_intent=${paymentIntent.id}&booking_ref=${bookingReference}`;
       }
     } catch (err) {
       setMessage("An unexpected error occurred");
@@ -293,7 +296,7 @@ export default function Step4Payment(props: Props) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        amount: Math.round(totalWithVAT * 100), // Convert to cents/pence
+        amount: Math.round(totalWithVAT * 100), 
         businessDetails: props.businessDetails,
         serviceType: props.serviceType,
       }),

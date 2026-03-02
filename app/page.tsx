@@ -1,4 +1,6 @@
+import Image from "next/image";
 import Link from "next/link";
+import logo from "../public/logo.png";
 
 export default function Home() {
   return (
@@ -6,10 +8,9 @@ export default function Home() {
       {/* Header */}
       <header className="bg-[#003366] text-white py-6">
         <div className="container mx-auto px-4">
-          <h1 className="text-4xl font-bold">
-            <span className="font-normal">KEPT</span>
-            <span className="font-bold">COLD</span>
-          </h1>
+          <div className="text-4xl font-bold">
+           <Image src={logo} alt="KeptCold Logo" width={200} height={50} className="inline-block" />
+          </div>
           <p className="text-blue-200 mt-1">Fast & Reliable Commercial Refrigeration Repairs</p>
         </div>
       </header>
@@ -18,10 +19,10 @@ export default function Home() {
       <main className="container mx-auto px-4 py-16">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-2xl sm:text-3xl md:text-5xl font-bold text-gray-900 mb-6">
-            24/7 Emergency Refrigeration Services
+            How we work
           </h2>
           <p className="text-xl text-gray-600 mb-8">
-            Professional refrigeration repair and maintenance for businesses across the UK
+            All call-out services include engineer attendance and up to 1 hour of labour to diagnose the system and carry out repairs where possible. If replacement parts, refrigerant, materials, or additional labour are required, a quotation will be provided for approval before any further work is carried out.
           </p>
 
           {/* CTA Button */}
@@ -191,9 +192,9 @@ export default function Home() {
         </div>
 
         {/* CTA Section */}
-        <div className="mt-20 bg-[#003366] text-white rounded-lg p-12 text-center max-w-4xl mx-auto">
-          <h3 className="text-3xl font-bold mb-4">Ready to Book Your Service?</h3>
-          <p className="text-xl mb-8 text-blue-200">
+        <div className="mt-20 bg-[#003366] text-white rounded-lg p-6 sm:p-8 md:p-12 text-center max-w-4xl mx-auto">
+          <h3 className="text-xl sm:text-2xl md:text-3xl font-bold mb-3 md:mb-4">Ready to Book Your Service?</h3>
+          <p className="text-sm sm:text-base md:text-xl mb-6 md:mb-8 text-blue-200">
             Get your refrigeration issues fixed quickly by our expert engineers
           </p>
           <Link

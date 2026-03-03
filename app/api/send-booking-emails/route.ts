@@ -101,6 +101,10 @@ export async function POST(request: NextRequest) {
                 <span class="label">Service type:</span>
                 <span class="value">${selectedService?.name}</span>
               </div>
+              <div class="detail-row">
+                <span class="label">Access Hours:</span>
+                <span class="value">${businessDetails.siteAccessHours === 'Custom' ? `${businessDetails.siteAccessFrom || ''} – ${businessDetails.siteAccessUntil || ''}` : businessDetails.siteAccessHours}</span>
+              </div>
             </div>
 
             <div class="highlight-box">
@@ -215,7 +219,7 @@ export async function POST(request: NextRequest) {
             <div class="section">
               <div class="section-title">ACCESS / NOTES</div>
               <div class="detail-row">
-                <span class="value">${businessDetails.siteAccessHours}</span>
+                <span class="value">${businessDetails.siteAccessHours === 'Custom' ? `${businessDetails.siteAccessFrom || ''} – ${businessDetails.siteAccessUntil || ''}` : businessDetails.siteAccessHours}</span>
               </div>
             </div>
 

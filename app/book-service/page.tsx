@@ -6,6 +6,8 @@ import Step1BusinessDetails from '@/components/booking/Step1BusinessDetails';
 import Step2FaultDescription from '@/components/booking/Step2FaultDescription';
 import Step3Priority from '@/components/booking/Step3Priority';
 import Step4Payment from '@/components/booking/Step4Payment';
+import Image from 'next/image';
+import logo from "../../public/lodo.png";
 
 export default function BookServicePage() {
   const [currentStep, setCurrentStep] = useState(1);
@@ -16,7 +18,9 @@ export default function BookServicePage() {
     contactName: '',
     contactPhone: '',
     contactEmail: '',
-    siteAccessHours: '8am - 6pm'
+    siteAccessHours: '8am - 6pm',
+    siteAccessFrom: '',
+    siteAccessUntil: ''
   });
   const [faultDetails, setFaultDetails] = useState<FaultDetails>({
     equipmentType: '',
@@ -34,10 +38,11 @@ export default function BookServicePage() {
       <header className="bg-[#003366] text-white py-6">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between">
-            <h1 className="text-3xl font-bold">
-              <span className="font-normal">KEPT</span>
-              <span className="font-bold">COLD</span>
-            </h1>
+             <div className=" font-bold">
+          <div className="flex items-center  space-x-2">
+             <Image src={logo} alt="KeptCold Logo" width={200} height={20} className="inline-block" />
+          </div>
+          </div>
           </div>
           <h2 className="text-xl mt-2">Book a Refrigeration Service Call-Out</h2>
           <p className="text-sm text-blue-200 mt-1">

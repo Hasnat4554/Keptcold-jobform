@@ -5,7 +5,10 @@ export interface BusinessDetails {
   contactName: string;
   contactPhone: string;
   contactEmail: string;
-  siteAccessHours: string;
+  siteAccessHours: string; // either a preset option or 'Custom'
+  // when custom is selected the following may be populated
+  siteAccessFrom?: string;
+  siteAccessUntil?: string;
 }
 
 export interface FaultDetails {

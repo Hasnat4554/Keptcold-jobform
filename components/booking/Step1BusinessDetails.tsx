@@ -3,6 +3,12 @@
 import { useState } from 'react';
 import { BusinessDetails, ACCESS_HOURS_OPTIONS } from '@/types/booking';
 
+// generate time options for dropdowns (hourly increments)
+const TIME_OPTIONS = Array.from({ length: 24 }, (_, i) => {
+  const hour = i.toString().padStart(2, '0');
+  return `${hour}:00`;
+});
+
 interface Props {
   data: BusinessDetails;
   onUpdate: (data: BusinessDetails) => void;
@@ -40,6 +46,18 @@ export default function Step1BusinessDetails({ data, onUpdate, onNext }: Props) 
       newErrors.contactEmail = 'Contact email is required';
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.contactEmail)) {
       newErrors.contactEmail = 'Invalid email format';
+    }
+
+    if (data.siteAccessHours === 'Custom') {
+      if (!data.siteAccessFrom) {
+        newErrors.siteAccessFrom = 'Please select start time';
+      }
+      if (!data.siteAccessUntil) {
+        newErrors.siteAccessUntil = 'Please select end time';
+      }
+      if (data.siteAccessFrom && data.siteAccessUntil && data.siteAccessFrom >= data.siteAccessUntil) {
+        newErrors.siteAccessUntil = 'End time must be after start time';
+      }
     }
 
     setErrors(newErrors);
@@ -191,6 +209,50 @@ export default function Step1BusinessDetails({ data, onUpdate, onNext }: Props) 
             ))}
           </select>
         </div>
+
+        {/* Custom range if selected */}
+        {data.siteAccessHours === 'Custom' && (
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                From
+              </label>
+              <select
+                value={data.siteAccessFrom || ''}
+                onChange={(e) => handleChange('siteAccessFrom', e.target.value)}
+                className={`w-full px-4 py-3 text-gray-800 border rounded-lg focus:ring-2 focus:ring-[#003366] focus:border-transparent
+                  ${errors.siteAccessFrom ? 'border-red-500' : 'border-gray-300'}`}
+              >
+                <option value="">Select</option>
+                {TIME_OPTIONS.map((time) => (
+                  <option key={time} value={time}>{time}</option>
+                ))}
+              </select>
+              {errors.siteAccessFrom && (
+                <p className="mt-1 text-sm text-red-500">{errors.siteAccessFrom}</p>
+              )}
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Until
+              </label>
+              <select
+                value={data.siteAccessUntil || ''}
+                onChange={(e) => handleChange('siteAccessUntil', e.target.value)}
+                className={`w-full px-4 py-3 text-gray-800 border rounded-lg focus:ring-2 focus:ring-[#003366] focus:border-transparent
+                  ${errors.siteAccessUntil ? 'border-red-500' : 'border-gray-300'}`}
+              >
+                <option value="">Select</option>
+                {TIME_OPTIONS.map((time) => (
+                  <option key={time} value={time}>{time}</option>
+                ))}
+              </select>
+              {errors.siteAccessUntil && (
+                <p className="mt-1 text-sm text-red-500">{errors.siteAccessUntil}</p>
+              )}
+            </div>
+          </div>
+        )}
 
         {/* Submit Button */}
         <div className="pt-4">

@@ -21,7 +21,8 @@ export default function Home() {
           <h2 className="text-2xl sm:text-3xl md:text-5xl font-bold text-gray-900 mb-6">
             How we work
           </h2>
-          <p className="text-xl text-gray-600 mb-8">
+       <div >
+           <p className="text-xl text-gray-600 mb-8">
             All call-out services include engineer attendance and up to 1 hour of labour to diagnose the fault and carry out repairs where possible.
           </p>
           <p className="text-xl text-gray-600 mb-8">
@@ -33,6 +34,7 @@ export default function Home() {
           <p className="text-xl text-gray-600 mb-8">
             Most breakdowns can be diagnosed within the first hour.
           </p>
+       </div>
 
           {/* CTA Button */}
           <Link
@@ -201,14 +203,14 @@ export default function Home() {
         </div>
 
         {/* CTA Section */}
-        <div className="mt-20 bg-[#003366] text-white rounded-lg p-6 sm:p-8 md:p-12 text-center max-w-4xl mx-auto">
+        <div className="mt-20 bg-[#003366] text-white rounded-lg text-center max-w-4xl mx-auto px-4 p-6 sm:p-8 md:p-12">
           <h3 className="text-xl sm:text-2xl md:text-3xl font-bold mb-3 md:mb-4">Ready to Get Your Refrigeration Fixed?</h3>
           <p className="text-sm sm:text-base md:text-xl mb-6 md:mb-8 text-blue-200">
             Book your call-out online and we'll schedule the earliest available engineer.
           </p>
           <Link
             href="/book-service"
-            className="inline-block bg-white text-[#003366] text-lg font-semibold py-4 px-10 rounded-lg
+            className="inline-block bg-white text-[#003366] text-lg font-semibold py-3 px-6 sm:py-4 sm:px-10 rounded-lg
               hover:bg-gray-100 transition-colors duration-200"
           >
             Book Your Engineer Visit

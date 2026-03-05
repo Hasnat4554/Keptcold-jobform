@@ -42,7 +42,6 @@ export default function Step3Priority({
         >
           <div className="bg-[#003366] text-white p-4">
             <h3 className="text-xl font-bold mb-1">Standard Call-Out</h3>
-            <p className="text-sm opacity-90">Next Available Appointment</p>
           </div>
           <div className="p-6 bg-white">
             <div className="mb-4">
@@ -69,7 +68,7 @@ export default function Step3Priority({
                     d="M5 13l4 4L19 7"
                   />
                 </svg>
-                <span className="text-black">Mon-Fri</span>
+                <span className="text-black">Next available engineer</span>
               </div>
               <div className="flex items-start gap-2">
                 <svg
@@ -85,7 +84,7 @@ export default function Step3Priority({
                     d="M5 13l4 4L19 7"
                   />
                 </svg>
-                <span className="text-black">8 AM - 6 PM</span>
+                <span className="text-black">Mon–Fri, 8:30am–5:30pm</span>
               </div>
               <div className="flex items-start gap-2">
                 <svg
@@ -101,7 +100,23 @@ export default function Step3Priority({
                     d="M5 13l4 4L19 7"
                   />
                 </svg>
-                <span className="text-black">Includes 1st 1h labour</span>
+                <span className="text-black">Typical response within 24–36 hours</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <svg
+                  className="w-5 h-5 text-[#003366] flex-shrink-0 mt-0.5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M5 13l4 4L19 7"
+                  />
+                </svg>
+                <span className="text-black">Includes engineer attendance + first 1 hour labour</span>
               </div>
             </div>
           </div>
@@ -130,7 +145,6 @@ export default function Step3Priority({
         >
           <div className="bg-orange-500 text-white p-4">
             <h3 className="text-xl font-bold mb-1">Same Day Service</h3>
-            <p className="text-sm opacity-90">Visit Today</p>
           </div>
           <div className="p-6 bg-white">
             <div className="mb-4">
@@ -157,7 +171,7 @@ export default function Step3Priority({
                     d="M5 13l4 4L19 7"
                   />
                 </svg>
-                <span className="text-black">Mon-Sun</span>
+                <span className="text-black">Same day engineer attendance</span>
               </div>
               <div className="flex items-start gap-2">
                 <svg
@@ -173,7 +187,7 @@ export default function Step3Priority({
                     d="M5 13l4 4L19 7"
                   />
                 </svg>
-                <span className="text-black">8 AM - 6 PM</span>
+                <span className="text-black">Mon–Sun, 8:30am–10:00pm</span>
               </div>
               <div className="flex items-start gap-2">
                 <svg
@@ -189,7 +203,23 @@ export default function Step3Priority({
                     d="M5 13l4 4L19 7"
                   />
                 </svg>
-                <span className="text-black">Includes 1st 1h labour</span>
+                <span className="text-black">Priority response</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <svg
+                  className="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M5 13l4 4L19 7"
+                  />
+                </svg>
+                <span className="text-black">Includes engineer attendance + first 1 hour labour</span>
               </div>
             </div>
           </div>
@@ -206,7 +236,7 @@ export default function Step3Priority({
           )}
         </div>
 
-        {/* Emergency 4 Hour Response */}
+        {/* Emergency 2-Hour Response */}
         <div
           onClick={() => onSelect("emergency")}
           className={`relative cursor-pointer rounded-lg overflow-hidden border-4 transition-all
@@ -218,9 +248,8 @@ export default function Step3Priority({
         >
           <div className="bg-red-500 text-white p-4">
             <h3 className="text-xl font-bold mb-1">
-              Emergency 4 Hour Response
+              Emergency 2-Hour Response
             </h3>
-            <p className="text-sm opacity-90">4-hour Arrival</p>
           </div>
           <div className="p-6 bg-white">
             <div className="mb-4">
@@ -247,7 +276,7 @@ export default function Step3Priority({
                     d="M5 13l4 4L19 7"
                   />
                 </svg>
-                <span className="text-black">Mon-Sun</span>
+                <span className="text-black">Approx 2 hour arrival</span>
               </div>
               <div className="flex items-start gap-2">
                 <svg
@@ -263,7 +292,7 @@ export default function Step3Priority({
                     d="M5 13l4 4L19 7"
                   />
                 </svg>
-                <span className="text-black">24/7 Service</span>
+                <span className="text-black">24/7 availability</span>
               </div>
               <div className="flex items-start gap-2">
                 <svg
@@ -279,7 +308,23 @@ export default function Step3Priority({
                     d="M5 13l4 4L19 7"
                   />
                 </svg>
-                <span className="text-black">Includes 1st 1h labour</span>
+                <span className="text-black">Highest priority attendance</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <svg
+                  className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M5 13l4 4L19 7"
+                  />
+                </svg>
+                <span className="text-black">Includes engineer attendance + first 1 hour labour</span>
               </div>
             </div>
           </div>
@@ -298,15 +343,15 @@ export default function Step3Priority({
       </div>
 
       {/* Navigation Buttons */}
-      <div className="flex gap-4">
+      <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
         <button
           type="button"
           onClick={onBack}
-          className="flex-1 bg-gray-200 text-black py-4 px-6 rounded-lg font-semibold text-lg
+          className="w-full sm:flex-1 bg-gray-200 text-black py-3 sm:py-4 px-4 sm:px-6 rounded-lg font-semibold text-base sm:text-lg
             hover:bg-gray-300 transition-colors duration-200 flex items-center justify-center gap-2"
         >
           <svg
-            className="w-5 h-5"
+            className="w-4 h-4 sm:w-5 sm:h-5"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -323,12 +368,12 @@ export default function Step3Priority({
         <button
           type="button"
           onClick={handleNext}
-          className="flex-1 bg-[#003366] text-white py-4 px-6 rounded-lg font-semibold text-lg
+          className="w-full sm:flex-1 bg-[#003366] text-white py-3 sm:py-4 px-4 sm:px-6 rounded-lg font-semibold text-base sm:text-lg
             hover:bg-[#004488] transition-colors duration-200 flex items-center justify-center gap-2"
         >
           Proceed to Payment
           <svg
-            className="w-5 h-5"
+            className="w-4 h-4 sm:w-5 sm:h-5"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"

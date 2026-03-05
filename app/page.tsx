@@ -210,7 +210,7 @@ export default function Home() {
           </p>
           <Link
             href="/book-service"
-            className="inline-block bg-white text-[#003366] text-lg font-semibold py-3 px-6 sm:py-4 sm:px-10 rounded-lg
+            className="inline-block bg-white text-[#003366] text-lg  font-semibold py-3 px-6 sm:py-4 sm:px-10 rounded-lg
               hover:bg-gray-100 transition-colors duration-200"
           >
             Book Your Engineer Visit

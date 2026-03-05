@@ -22,7 +22,16 @@ export default function Home() {
             How we work
           </h2>
           <p className="text-xl text-gray-600 mb-8">
-            All call-out services include engineer attendance and up to 1 hour of labour to diagnose the system and carry out repairs where possible. If replacement parts, refrigerant, materials, or additional labour are required, a quotation will be provided for approval before any further work is carried out.
+            All call-out services include engineer attendance and up to 1 hour of labour to diagnose the fault and carry out repairs where possible.
+          </p>
+          <p className="text-xl text-gray-600 mb-8">
+            Many issues can be resolved during this visit. If replacement parts, refrigerant, materials or additional labour are required, we will provide a clear quotation for approval before any further work is carried out.
+          </p>
+          <p className="text-xl text-gray-600 mb-8">
+            This ensures you always know the cost before any additional work begins.
+          </p>
+          <p className="text-xl text-gray-600 mb-8">
+            Most breakdowns can be diagnosed within the first hour.
           </p>
 
           {/* CTA Button */}
@@ -31,7 +40,7 @@ export default function Home() {
             className="inline-block bg-[#003366] text-white text-xl font-semibold py-4 px-12 rounded-lg
               hover:bg-[#004488] transition-colors duration-200 shadow-lg"
           >
-            Book a Service Call-Out
+            Book Your Engineer Visit
           </Link>
         </div>
 
@@ -49,25 +58,25 @@ export default function Home() {
                   <svg className="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                   </svg>
-                  Next available slot
+                  Next available engineer
                 </li>
                 <li className="flex items-center gap-2">
                   <svg className="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                   </svg>
-                  Mon-Fri, 8am-6pm
+                  Mon–Fri, 8:30am–5:30pm
                 </li>
                 <li className="flex items-center gap-2">
                   <svg className="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                   </svg>
-                  36h response time
+                  Typical response within 24–36 hours
                 </li>
                 <li className="flex items-center gap-2">
                   <svg className="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                   </svg>
-                  Includes 1st 1h labour
+                  Includes engineer attendance + first 1 hour labour
                 </li>
               </ul>
             </div>
@@ -85,49 +94,13 @@ export default function Home() {
                   <svg className="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                   </svg>
-                  Visit today
+                  Same day engineer attendance
                 </li>
                 <li className="flex items-center gap-2">
                   <svg className="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                   </svg>
-                  Mon-Sun, 8am-6pm
-                </li>
-                <li className="flex items-center gap-2">
-                  <svg className="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                  </svg>
-                  24h response time
-                </li>
-                <li className="flex items-center gap-2">
-                  <svg className="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                  </svg>
-                  Includes 1st 1h labour
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          {/* Emergency */}
-          <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-            <div className="bg-red-500 text-white p-6">
-              <h3 className="text-2xl font-bold mb-2">Emergency 4-Hour</h3>
-              <p className="text-3xl font-bold">£240 <span className="text-lg font-normal">+ VAT</span></p>
-            </div>
-            <div className="p-6">
-              <ul className="space-y-3 text-gray-700">
-                <li className="flex items-center gap-2">
-                  <svg className="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                  </svg>
-                  4-hour arrival
-                </li>
-                <li className="flex items-center gap-2">
-                  <svg className="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                  </svg>
-                  24/7 availability
+                  Mon–Sun, 8:30am–10:00pm
                 </li>
                 <li className="flex items-center gap-2">
                   <svg className="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
@@ -139,7 +112,43 @@ export default function Home() {
                   <svg className="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                   </svg>
-                  Includes 1st 1h labour
+                  Includes engineer attendance + first 1 hour labour
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          {/* Emergency */}
+          <div className="bg-white rounded-lg shadow-lg overflow-hidden">
+            <div className="bg-red-500 text-white p-6">
+              <h3 className="text-2xl font-bold mb-2">Emergency 2-Hour Response</h3>
+              <p className="text-3xl font-bold">£240 <span className="text-lg font-normal">+ VAT</span></p>
+            </div>
+            <div className="p-6">
+              <ul className="space-y-3 text-gray-700">
+                <li className="flex items-center gap-2">
+                  <svg className="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                  </svg>
+                  Approx 2 hour arrival
+                </li>
+                <li className="flex items-center gap-2">
+                  <svg className="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                  </svg>
+                  24/7 availability
+                </li>
+                <li className="flex items-center gap-2">
+                  <svg className="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                  </svg>
+                  Highest priority attendance
+                </li>
+                <li className="flex items-center gap-2">
+                  <svg className="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                  </svg>
+                  Includes engineer attendance + first 1 hour labour
                 </li>
               </ul>
             </div>
@@ -193,17 +202,20 @@ export default function Home() {
 
         {/* CTA Section */}
         <div className="mt-20 bg-[#003366] text-white rounded-lg p-6 sm:p-8 md:p-12 text-center max-w-4xl mx-auto">
-          <h3 className="text-xl sm:text-2xl md:text-3xl font-bold mb-3 md:mb-4">Ready to Book Your Service?</h3>
+          <h3 className="text-xl sm:text-2xl md:text-3xl font-bold mb-3 md:mb-4">Ready to Get Your Refrigeration Fixed?</h3>
           <p className="text-sm sm:text-base md:text-xl mb-6 md:mb-8 text-blue-200">
-            Get your refrigeration issues fixed quickly by our expert engineers
+            Book your call-out online and we'll schedule the earliest available engineer.
           </p>
           <Link
             href="/book-service"
             className="inline-block bg-white text-[#003366] text-lg font-semibold py-4 px-10 rounded-lg
               hover:bg-gray-100 transition-colors duration-200"
           >
-            Book Now
+            Book Your Engineer Visit
           </Link>
+          <p className="text-sm text-blue-200 mt-4">
+            Secure online booking • Instant confirmation
+          </p>
         </div>
       </main>
 

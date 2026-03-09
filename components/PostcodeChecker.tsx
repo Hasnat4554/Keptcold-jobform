@@ -134,12 +134,12 @@ export default function PostcodeChecker({ variant = 'hero', onCovered }: Postcod
                   setMessageType('');
                 }
               }}
-              placeholder="Enter your postcode (e.g SW1A 1AA)"
+              placeholder="Enter your pos tcode (e.g SW1A 1AA)"
               className={`w-full pl-12 pr-4 py-3.5 rounded-lg font-medium text-base
                 focus:ring-2 focus:outline-none transition-colors
                 ${isHero
                   ? 'bg-gray-50 border border-gray-300 text-gray-900 placeholder-gray-400 focus:ring-[#003366] focus:border-[#003366]'
-                  : 'bg-white/20 border border-white/30 text-white placeholder-blue-200 focus:ring-white focus:border-white'
+                  : 'bg-gray-50 border border-gray-300 text-gray-900 placeholder-gray-400 focus:ring-white focus:border-white'
                 }
                 ${messageType === 'error' ? '!border-red-400 !ring-red-400' : ''}
               `}

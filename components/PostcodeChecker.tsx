@@ -91,7 +91,7 @@ export default function PostcodeChecker({ variant = 'hero' }: PostcodeCheckerPro
       <p className={`text-sm mb-2 ${isHero ? 'text-gray-500' : 'text-blue-200'}`}>
         Enter your postcode to check if we cover your area
       </p>
-      <div className="flex gap-2">
+      <div className="flex flex-col sm:flex-row gap-2">
         <input
           type="text"
           value={postcode}
@@ -108,7 +108,7 @@ export default function PostcodeChecker({ variant = 'hero' }: PostcodeCheckerPro
         <button
           type="submit"
           disabled={checking}
-          className={`px-6 py-3 rounded-lg font-semibold transition-colors duration-200 whitespace-nowrap
+          className={`w-full sm:w-auto px-6 py-3 rounded-lg font-semibold transition-colors duration-200 whitespace-nowrap
             ${isHero
               ? 'bg-[#003366] text-white hover:bg-[#004488]'
               : 'bg-white text-[#003366] hover:bg-gray-100'

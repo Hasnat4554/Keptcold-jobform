@@ -1,6 +1,6 @@
 import Image from "next/image";
-import Link from "next/link";
 import logo from "../public/lodo.png";
+import PostcodeChecker from "@/components/PostcodeChecker";
 
 export default function Home() {
   return (
@@ -36,14 +36,8 @@ export default function Home() {
           </p>
        </div>
 
-          {/* CTA Button */}
-          <Link
-            href="/book-service"
-            className="inline-block bg-[#003366] text-white text-xl font-semibold py-4 px-12 rounded-lg
-              hover:bg-[#004488] transition-colors duration-200 shadow-lg"
-          >
-            Book Your Engineer Visit
-          </Link>
+          {/* Postcode Checker */}
+          <PostcodeChecker variant="hero" />
         </div>
 
         {/* Service Options */}
@@ -208,13 +202,7 @@ export default function Home() {
           <p className="text-sm sm:text-base md:text-xl mb-6 md:mb-8 text-blue-200">
             Book your call-out online and we'll schedule the earliest available engineer.
           </p>
-          <Link
-            href="/book-service"
-            className="inline-block bg-white text-[#003366] text-lg  font-semibold py-3 px-6 sm:py-4 sm:px-10 rounded-lg
-              hover:bg-gray-100 transition-colors duration-200"
-          >
-            Book Your Engineer Visit
-          </Link>
+          <PostcodeChecker variant="cta" />
           <p className="text-sm text-blue-200 mt-4">
             Secure online booking • Instant confirmation
           </p>

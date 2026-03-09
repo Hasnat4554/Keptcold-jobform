@@ -7,7 +7,7 @@ import Step2FaultDescription from '@/components/booking/Step2FaultDescription';
 import Step3Priority from '@/components/booking/Step3Priority';
 import Step4Payment from '@/components/booking/Step4Payment';
 import Image from 'next/image';
-import logo from "../../public/lodo.png";
+import logo from "../../public/kptlog.jpeg";
 
 export default function BookServicePage() {
   const [currentStep, setCurrentStep] = useState(1);

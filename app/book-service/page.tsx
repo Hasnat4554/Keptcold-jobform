@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { BusinessDetails, FaultDetails, ServiceType } from '@/types/booking';
 import Step1BusinessDetails from '@/components/booking/Step1BusinessDetails';
@@ -8,7 +8,7 @@ import Step2FaultDescription from '@/components/booking/Step2FaultDescription';
 import Step3Priority from '@/components/booking/Step3Priority';
 import Step4Payment from '@/components/booking/Step4Payment';
 
-export default function BookServicePage() {
+function BookServiceContent() {
   const searchParams = useSearchParams();
   const verifiedPostcode = searchParams.get('postcode');
   const [currentStep, setCurrentStep] = useState(1);
@@ -34,7 +34,7 @@ export default function BookServicePage() {
   const prevStep = () => setCurrentStep(prev => Math.max(prev - 1, 1));
 
   return (
-    <div className="min-h-screen bg-gray-50">
+   <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <header className="bg-[#003366] text-white py-6">
         <div className="container mx-auto px-4">
@@ -129,8 +129,17 @@ export default function BookServicePage() {
               onBack={prevStep}
             />
           )}
+          
         </div>
       </main>
     </div>
+  );
+}
+
+export default function BookServicePage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
+      <BookServiceContent />
+    </Suspense>
   );
 }

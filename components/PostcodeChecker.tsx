@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 // =====================================================
 // APPROVED SERVICE COVERAGE LIST
@@ -68,10 +69,10 @@ function isValidUKPostcode(postcode: string): boolean {
 
 interface PostcodeCheckerProps {
   variant?: 'hero' | 'cta';
-  onCovered?: () => void;
 }
 
-export default function PostcodeChecker({ variant = 'hero', onCovered }: PostcodeCheckerProps) {
+export default function PostcodeChecker({ variant = 'hero' }: PostcodeCheckerProps) {
+  const router = useRouter();
   const [postcode, setPostcode] = useState('');
   const [message, setMessage] = useState('');
   const [messageType, setMessageType] = useState<'success' | 'error' | 'warning' | ''>('');
@@ -101,9 +102,11 @@ export default function PostcodeChecker({ variant = 'hero', onCovered }: Postcod
     setTimeout(() => {
       setChecking(false);
       if (isCovered(trimmed)) {
-        setMessage('Great news — we cover your area. You can continue with booking below.');
+        setMessage('Great news — we cover your area! Redirecting to booking...');
         setMessageType('success');
-        onCovered?.();
+        setTimeout(() => {
+          router.push(`/book-service?postcode=${encodeURIComponent(trimmed)}`);
+        }, 800);
       } else {
         setMessage('Sorry, we do not currently cover this postcode. Please contact us and we may still be able to assist.');
         setMessageType('warning');

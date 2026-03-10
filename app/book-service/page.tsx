@@ -1,15 +1,16 @@
 'use client';
 
 import { useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { BusinessDetails, FaultDetails, ServiceType } from '@/types/booking';
 import Step1BusinessDetails from '@/components/booking/Step1BusinessDetails';
 import Step2FaultDescription from '@/components/booking/Step2FaultDescription';
 import Step3Priority from '@/components/booking/Step3Priority';
 import Step4Payment from '@/components/booking/Step4Payment';
-import Image from 'next/image';
-import logo from "../../public/kptlog.jpeg";
 
 export default function BookServicePage() {
+  const searchParams = useSearchParams();
+  const verifiedPostcode = searchParams.get('postcode');
   const [currentStep, setCurrentStep] = useState(1);
   const [businessDetails, setBusinessDetails] = useState<BusinessDetails>({
     businessName: '',
@@ -37,19 +38,24 @@ export default function BookServicePage() {
       {/* Header */}
       <header className="bg-[#003366] text-white py-6">
         <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between">
-             <div className=" font-bold">
-          <div className="flex items-center  space-x-2">
-             <Image src={logo} alt="KeptCold Logo" width={200} height={20} className="inline-block" />
-          </div>
-          </div>
-          </div>
-          <h2 className="text-xl mt-2">Book a Refrigeration Service Call-Out</h2>
+          <h1 className="text-2xl font-bold">Book a Refrigeration Service Call-Out</h1>
           <p className="text-sm text-blue-200 mt-1">
             Fast & Reliable Commercial Refrigeration Repairs
           </p>
         </div>
       </header>
+
+      {/* Postcode verified confirmation */}
+      {verifiedPostcode && (
+        <div className="bg-green-50 border-b border-green-200">
+          <div className="container mx-auto px-4 py-3 flex items-center gap-2 text-sm text-green-800">
+            <svg className="w-5 h-5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+            </svg>
+            <span>Postcode <strong>{verifiedPostcode.toUpperCase()}</strong> is within our coverage area</span>
+          </div>
+        </div>
+      )}
 
       {/* Progress Indicator */}
       <div className="bg-white border-b">

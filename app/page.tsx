@@ -1,37 +1,11 @@
 "use client";
 
-import { useRef } from "react";
-import Image from "next/image";
-import logo from "../public/kptlog.jpeg";
 import PostcodeChecker from "@/components/PostcodeChecker";
 
 export default function Home() {
-  const bookingRef = useRef<HTMLDivElement>(null);
-
-  const scrollToBooking = () => {
-    bookingRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-  };
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="bg-[#003366] text-white py-6">
-        <div className="container mx-auto px-4">
-          <div className="text-4xl font-bold">
-            <Image
-              src={logo}
-              alt="KeptCold Logo"
-              width={200}
-              height={50}
-              className="inline-block"
-            />
-          </div>
-          <p className="text-blue-200 mt-1">
-            Fast & Reliable Commercial Refrigeration Repairs
-          </p>
-        </div>
-      </header>
-
       <main className="container mx-auto px-4 py-10 sm:py-16">
         {/* Postcode Checker Section — above everything */}
         <div className="max-w-xl mx-auto text-center mb-12 sm:mb-16">
@@ -42,7 +16,7 @@ export default function Home() {
             Enter your postcode to start booking
           </p>
 
-          <PostcodeChecker variant="hero" onCovered={scrollToBooking} />
+          <PostcodeChecker variant="hero" />
 
           {/* Trust indicators */}
           <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 text-sm text-gray-700">
@@ -119,10 +93,7 @@ export default function Home() {
         </div>
 
         {/* Service Options */}
-        <div
-          ref={bookingRef}
-          className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto"
-        >
+        <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
           {/* Standard */}
           <div className="bg-white rounded-lg shadow-lg overflow-hidden">
             <div className="bg-[#003366] text-white p-6">
@@ -438,7 +409,7 @@ export default function Home() {
             Book your call-out online and we'll schedule the earliest available
             engineer.
           </p>
-          <PostcodeChecker variant="cta" onCovered={scrollToBooking} />
+          <PostcodeChecker variant="cta" />
           <p className="text-sm text-blue-200 mt-4">
             Secure online booking &bull; Instant confirmation
           </p>

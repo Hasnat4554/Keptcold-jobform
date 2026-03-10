@@ -36,14 +36,14 @@ function BookServiceContent() {
   return (
    <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <header className="bg-[#003366] text-white py-6">
+      {/* <header className="bg-[#003366] text-white py-6">
         <div className="container mx-auto px-4">
           <h1 className="text-2xl font-bold">Book a Refrigeration Service Call-Out</h1>
           <p className="text-sm text-blue-200 mt-1">
             Fast & Reliable Commercial Refrigeration Repairs
           </p>
         </div>
-      </header>
+      </header> */}
 
       {/* Postcode verified confirmation */}
       {verifiedPostcode && (

@@ -4,10 +4,30 @@ import { useEffect, useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 
+// Generate a human-friendly reference number
+function generateRef(paymentIntentId: string | null): string {
+  if (!paymentIntentId) return `KC-${Date.now().toString().slice(-8)}`;
+  // Take last 8 chars of payment intent for a short reference
+  const short = paymentIntentId.replace('pi_', '').slice(-8).toUpperCase();
+  return `KC-${short}`;
+}
+
 function BookingConfirmationContent() {
   const searchParams = useSearchParams();
   const paymentIntentId = searchParams.get('payment_intent');
-  const jobNumber = searchParams.get('job');
+
+  // ✅ Fix: read both 'job' and 'booking_ref' since URL shows booking_ref
+  const jobNumber =
+    searchParams.get('job') ||
+    searchParams.get('booking_ref') ||
+    searchParams.get('jobNumber') ||
+    null;
+
+  // Generate a customer-facing reference number
+  const customerRef = jobNumber && jobNumber !== 'undefined'
+    ? jobNumber
+    : generateRef(paymentIntentId);
+
   const [loading, setLoading] = useState(true);
   const [downloading, setDownloading] = useState(false);
 
@@ -26,39 +46,35 @@ function BookingConfirmationContent() {
       const contentWidth = pageWidth - margin * 2;
       let y = 20;
 
-      // Header bar
-      // pdf.setFillColor(0, 51, 102);
-      // pdf.rect(0, 0, pageWidth, 18, 'F');
-      // pdf.setTextColor(255, 255, 255);
-      // pdf.setFontSize(14);
-      // pdf.setFont('helvetica', 'bold');
-      // pdf.text('KEPT', margin, 12);
-      // pdf.setFont('helvetica', 'normal');
-      // pdf.text('COLD', margin + 13, 12);
+      // ── Header bar ──────────────────────────────────────────
+      pdf.setFillColor(0, 51, 102);
+      pdf.rect(0, 0, pageWidth, 20, 'F');
+      pdf.setTextColor(255, 255, 255);
+      pdf.setFontSize(16);
+    
+      pdf.setFontSize(9);
+ 
 
-      y = 35;
+      y = 38;
 
-      // Green success circle (drawn)
+      // ── Green success circle ─────────────────────────────────
       pdf.setFillColor(220, 252, 231);
       pdf.circle(pageWidth / 2, y + 10, 12, 'F');
       pdf.setDrawColor(22, 163, 74);
       pdf.setLineWidth(1.5);
-      // Checkmark
       pdf.line(pageWidth / 2 - 5, y + 10, pageWidth / 2 - 1, y + 14);
       pdf.line(pageWidth / 2 - 1, y + 14, pageWidth / 2 + 6, y + 4);
 
-      y += 30;
+      y += 28;
 
-      // Title
+      // ── Title ────────────────────────────────────────────────
       pdf.setTextColor(17, 24, 39);
       pdf.setFontSize(22);
       pdf.setFont('helvetica', 'bold');
       pdf.text('Booking Confirmed!', pageWidth / 2, y, { align: 'center' });
 
-      y += 10;
-
-      // Subtitle
-      pdf.setFontSize(11);
+      y += 9;
+      pdf.setFontSize(10);
       pdf.setFont('helvetica', 'normal');
       pdf.setTextColor(75, 85, 99);
       pdf.text(
@@ -66,44 +82,44 @@ function BookingConfirmationContent() {
         pageWidth / 2, y, { align: 'center', maxWidth: contentWidth }
       );
 
-      y += 16;
+      y += 14;
 
-      // Job Number box
-      if (jobNumber) {
-        pdf.setFillColor(249, 250, 251);
-        pdf.roundedRect(margin, y, contentWidth, 22, 3, 3, 'F');
-        pdf.setFontSize(9);
-        pdf.setTextColor(75, 85, 99);
-        pdf.setFont('helvetica', 'bold');
-        pdf.text('JOB / ORDER NUMBER', margin + 8, y + 8);
-        pdf.setFontSize(12);
-        pdf.setTextColor(17, 24, 39);
-        pdf.setFont('courier', 'normal');
-        pdf.text(jobNumber, margin + 8, y + 16);
-        y += 30;
-      }
-
-      // Payment Reference box
-      pdf.setFillColor(249, 250, 251);
-      pdf.roundedRect(margin, y, contentWidth, 22, 3, 3, 'F');
+      // ── CUSTOMER REFERENCE NUMBER (most prominent) ───────────
+      pdf.setFillColor(0, 51, 102);
+      pdf.roundedRect(margin, y, contentWidth, 28, 3, 3, 'F');
+      pdf.setTextColor(255, 255, 255);
       pdf.setFontSize(9);
-      pdf.setTextColor(75, 85, 99);
       pdf.setFont('helvetica', 'bold');
-      pdf.text('PAYMENT REFERENCE', margin + 8, y + 8);
-      pdf.setFontSize(10);
+      pdf.text('YOUR BOOKING REFERENCE', pageWidth / 2, y + 8, { align: 'center' });
+      pdf.setFontSize(18);
+      pdf.setFont('courier', 'bold');
+      pdf.text(customerRef, pageWidth / 2, y + 20, { align: 'center' });
+
+      y += 36;
+
+      // ── Payment Reference box ────────────────────────────────
+      pdf.setFillColor(249, 250, 251);
+      pdf.setDrawColor(229, 231, 235);
+      pdf.setLineWidth(0.3);
+      pdf.roundedRect(margin, y, contentWidth, 22, 3, 3, 'FD');
+      pdf.setFontSize(8);
+      pdf.setTextColor(107, 114, 128);
+      pdf.setFont('helvetica', 'bold');
+      pdf.text('PAYMENT REFERENCE', margin + 8, y + 7);
+      pdf.setFontSize(9);
       pdf.setTextColor(17, 24, 39);
       pdf.setFont('courier', 'normal');
       pdf.text(paymentIntentId || 'N/A', margin + 8, y + 16, { maxWidth: contentWidth - 16 });
 
       y += 30;
 
-      // What's next box
+      // ── What's next box ──────────────────────────────────────
       pdf.setFillColor(239, 246, 255);
       pdf.setDrawColor(191, 219, 254);
       pdf.setLineWidth(0.5);
-      pdf.roundedRect(margin, y, contentWidth, 60, 3, 3, 'FD');
+      pdf.roundedRect(margin, y, contentWidth, 62, 3, 3, 'FD');
 
-      pdf.setFontSize(12);
+      pdf.setFontSize(11);
       pdf.setTextColor(0, 51, 102);
       pdf.setFont('helvetica', 'bold');
       pdf.text('What happens next?', margin + 8, y + 10);
@@ -115,12 +131,9 @@ function BookingConfirmationContent() {
         'Your refrigeration issue will be resolved quickly and professionally',
       ];
 
-      pdf.setFontSize(10);
-      pdf.setFont('helvetica', 'normal');
-      pdf.setTextColor(55, 65, 81);
-
       steps.forEach((step, i) => {
-        const stepY = y + 20 + i * 10;
+        const stepY = y + 20 + i * 11;
+        pdf.setFontSize(10);
         pdf.setFont('helvetica', 'bold');
         pdf.setTextColor(0, 51, 102);
         pdf.text(`${i + 1}.`, margin + 8, stepY);
@@ -129,9 +142,9 @@ function BookingConfirmationContent() {
         pdf.text(step, margin + 16, stepY, { maxWidth: contentWidth - 24 });
       });
 
-      y += 70;
+      y += 72;
 
-      // Contact info
+      // ── Contact info ─────────────────────────────────────────
       pdf.setFontSize(10);
       pdf.setTextColor(75, 85, 99);
       pdf.setFont('helvetica', 'normal');
@@ -141,15 +154,18 @@ function BookingConfirmationContent() {
       pdf.setTextColor(0, 51, 102);
       pdf.text('Call us: 02081469071', pageWidth / 2, y, { align: 'center' });
 
-      // Footer
+      // ── Footer ───────────────────────────────────────────────
       pdf.setFillColor(0, 51, 102);
-      pdf.rect(0, 285, pageWidth, 12, 'F');
+      pdf.rect(0, 284, pageWidth, 13, 'F');
       pdf.setTextColor(255, 255, 255);
-      pdf.setFontSize(9);
+      pdf.setFontSize(8);
       pdf.setFont('helvetica', 'normal');
-      pdf.text('KeptCold Refrigeration Services', pageWidth / 2, 293, { align: 'center' });
+      const date = new Date().toLocaleDateString('en-GB', {
+        day: '2-digit', month: 'long', year: 'numeric'
+      });
+      pdf.text(`KeptCold Refrigeration Services  |  Generated: ${date}`, pageWidth / 2, 292, { align: 'center' });
 
-      pdf.save(`Booking-Confirmation-${jobNumber || paymentIntentId || 'KeptCold'}.pdf`);
+      pdf.save(`KeptCold-Booking-${customerRef}.pdf`);
     } catch (error) {
       console.error('Failed to generate PDF:', error);
       alert('Failed to generate PDF. Please try again.');
@@ -178,7 +194,16 @@ function BookingConfirmationContent() {
         <div className="max-w-2xl mx-auto">
           <div className="bg-white rounded-lg shadow-lg p-8 text-center">
 
-            {/* Success Icon */}
+          <div>
+            <header>
+            <div className="bg-[#003366] text-white py-6 mb-8 ">
+              {/* <h1 className="text-2xl font-bold">Booking Confirmation</h1>
+              <p className="text-sm text-blue-200 mt-1">
+                Thank you for choosing KeptCold Refrigeration Services
+              </p> */}
+              </div>
+            </header>
+          </div>
             <div className="mb-6">
               <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto">
                 <svg className="w-12 h-12 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -192,18 +217,26 @@ function BookingConfirmationContent() {
               Thank you for choosing KeptCold. Your payment has been successfully processed.
             </p>
 
-            {jobNumber && (
-              <div className="bg-gray-50 rounded-lg p-6 mb-6">
-                <h3 className="text-sm font-semibold text-gray-600 uppercase mb-2">Job / Order Number</h3>
-                <p className="text-lg font-mono text-gray-900 break-all">{jobNumber}</p>
-              </div>
-            )}
-
-            <div className="bg-gray-50 rounded-lg p-6 mb-6">
-              <h3 className="text-sm font-semibold text-gray-600 uppercase mb-2">Payment Reference</h3>
-              <p className="text-lg font-mono text-gray-900 break-all">{paymentIntentId}</p>
+            {/* ✅ Prominent Customer Reference Number */}
+            <div className="bg-[#003366] rounded-lg p-6 mb-6">
+              <h3 className="text-sm font-semibold text-blue-200 uppercase mb-2 tracking-wider">
+                Your Booking Reference
+              </h3>
+              <p className="text-2xl font-mono font-bold text-white tracking-widest">
+                {customerRef}
+              </p>
+              <p className="text-xs text-blue-200 mt-2">
+                Please keep this reference number for your records
+              </p>
             </div>
 
+            {/* Payment Reference */}
+            <div className="bg-gray-50 rounded-lg p-4 mb-6">
+              <h3 className="text-xs font-semibold text-gray-500 uppercase mb-1">Payment Reference</h3>
+              <p className="text-sm font-mono text-gray-700 break-all">{paymentIntentId}</p>
+            </div>
+
+            {/* What's Next */}
             <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-6 text-left">
               <h3 className="text-lg font-semibold text-[#003366] mb-3 flex items-center gap-2">
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -273,3 +306,12 @@ export default function BookingConfirmationPage() {
     </Suspense>
   );
 }
+// ```
+
+// **Key changes:**
+
+// The `generateRef()` function creates a `KC-XXXXXXXX` style reference from the last 8 characters of the Stripe payment intent ID — so `pi_3TAAI0DseERP3xvh1oOSAhgS` becomes something like `KC-1OOSAHGS`. It reads `booking_ref`, `job`, or `jobNumber` from the URL to handle whichever param name you're passing. The customer reference is now shown **prominently in dark blue** on the page and as a **large bold box at the top of the PDF**.
+
+// On the backend where you redirect after payment, make sure you're passing the job number like this:
+// ```
+// /booking-confirmation?payment_intent=pi_xxx&job=YOUR_JOB_NUMBER

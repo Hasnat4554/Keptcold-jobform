@@ -285,7 +285,8 @@ Make sure to set all environment variables in your hosting platform:
 
 For issues or questions:
 - Email: support@keptcold.co.uk
-- Phone: 0800 123 4567
+- Phone: set via `NEXT_PUBLIC_CONTACT_PHONE` environment variable (defaults to 0800 123 4567)
+
 
 ## License
 

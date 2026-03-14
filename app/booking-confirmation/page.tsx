@@ -306,12 +306,3 @@ export default function BookingConfirmationPage() {
     </Suspense>
   );
 }
-// ```
-
-// **Key changes:**
-
-// The `generateRef()` function creates a `KC-XXXXXXXX` style reference from the last 8 characters of the Stripe payment intent ID — so `pi_3TAAI0DseERP3xvh1oOSAhgS` becomes something like `KC-1OOSAHGS`. It reads `booking_ref`, `job`, or `jobNumber` from the URL to handle whichever param name you're passing. The customer reference is now shown **prominently in dark blue** on the page and as a **large bold box at the top of the PDF**.
-
-// On the backend where you redirect after payment, make sure you're passing the job number like this:
-// ```
-// /booking-confirmation?payment_intent=pi_xxx&job=YOUR_JOB_NUMBER

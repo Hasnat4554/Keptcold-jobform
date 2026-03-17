@@ -86,19 +86,23 @@ function PaymentForm({
 
         try {
           await fetch(
-            "https://bevvy-bullet.app.n8n.cloud/webhook/86704905-129a-48b1-889a-1e7bdec90f17",
+            "https://keptcoldbackend-production.up.railway.app/webhook",
             {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
               },
               body: JSON.stringify({
-                businessDetails,
-                faultDetails,
-                serviceType,
+                businessName: businessDetails.businessName,
+                businessAddress: businessDetails.businessAddress,
+                jobAddress: businessDetails.jobAddress,
+                contactName: businessDetails.contactName,
+                email: businessDetails.contactEmail,
+                contactNumber: businessDetails.contactPhone,
+                accessHours: businessDetails.siteAccessHours,
+                equipmentType: faultDetails.equipmentType,
+                faultDescription: faultDetails.faultDescription,
                 totalPrice: totalWithVAT,
-                paymentIntentId: paymentIntent.id,
-                bookingReference: bookingReference,
               }),
             },
           );
@@ -109,6 +113,8 @@ function PaymentForm({
 
         // Redirect to confirmation page
         window.location.href = `/booking-confirmation?payment_intent=${paymentIntent.id}&booking_ref=${bookingReference}`;
+        console.log("emailData:", emailData);
+        
       }
     } catch (err) {
       setMessage("An unexpected error occurred");

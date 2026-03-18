@@ -111,13 +111,12 @@ function PaymentForm({
           console.log('photos to send:', faultDetails.photos);
           console.log('FormData entries:', [...webhookForm.entries()].map(([k]) => k));
 
-          // fire-and-forget — don't block redirect on webhook
-          fetch("https://keptcoldbackend-production.up.railway.app/webhook", {
-            method: "POST",
-            body: webhookForm,
-            keepalive: true,
-          }).catch((webhookErr) =>
-            console.error("Failed to send data to webhook:", webhookErr)
+          await fetch(
+            "https://keptcoldbackend-production.up.railway.app/webhook",
+            {
+              method: "POST",
+              body: webhookForm,
+            },
           );
         } catch (webhookErr) {
           console.error("Failed to build webhook payload:", webhookErr);

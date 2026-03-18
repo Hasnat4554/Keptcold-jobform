@@ -85,25 +85,37 @@ function PaymentForm({
         const bookingReference = emailData.bookingReference;
 
         try {
+          const webhookForm = new FormData();
+          webhookForm.append("businessName",     businessDetails.businessName);
+          webhookForm.append("businessAddress",  businessDetails.businessAddress);
+          webhookForm.append("jobAddress",       businessDetails.jobAddress ?? "");
+          webhookForm.append("contactName",      businessDetails.contactName);
+          webhookForm.append("email",            businessDetails.contactEmail);
+          webhookForm.append("contactNumber",    businessDetails.contactPhone);
+          webhookForm.append("accessHours",      businessDetails.siteAccessHours);
+          webhookForm.append("equipmentType",    faultDetails.equipmentType);
+          webhookForm.append("faultDescription", faultDetails.faultDescription);
+          webhookForm.append("totalPrice",       String(totalWithVAT));
+          const toBase64 = (file: File) => new Promise<{ filename: string; mimeType: string; data: string }>((resolve) => {
+            const reader = new FileReader();
+            reader.onload = (e) => resolve({
+              filename: file.name,
+              mimeType: file.type,
+              data: (e.target!.result as string).split(",")[1],
+            });
+            reader.readAsDataURL(file);
+          });
+          const attachments = await Promise.all(faultDetails.photos.map(toBase64));
+          webhookForm.append("attachments", JSON.stringify(attachments));
+
+          console.log('photos to send:', faultDetails.photos);
+          console.log('FormData entries:', [...webhookForm.entries()].map(([k]) => k));
+
           await fetch(
             "https://keptcoldbackend-production.up.railway.app/webhook",
             {
               method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                businessName: businessDetails.businessName,
-                businessAddress: businessDetails.businessAddress,
-                jobAddress: businessDetails.jobAddress,
-                contactName: businessDetails.contactName,
-                email: businessDetails.contactEmail,
-                contactNumber: businessDetails.contactPhone,
-                accessHours: businessDetails.siteAccessHours,
-                equipmentType: faultDetails.equipmentType,
-                faultDescription: faultDetails.faultDescription,
-                totalPrice: totalWithVAT,
-              }),
+              body: webhookForm,
             },
           );
         } catch (webhookErr) {
@@ -173,7 +185,7 @@ function PaymentForm({
         </div>
       </div>
 
-      {/* Payment Element */}
+   
       <div>
         <h3 className="text-lg font-semibold text-gray-900 mb-4">
           Enter Payment Details

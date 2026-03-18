@@ -46,7 +46,7 @@ export default function Step3Priority({
           <div className="p-6 bg-white">
             <div className="mb-4">
               <div className="text-4xl font-bold text-[#003366] mb-1">
-                £120
+                £1.8
                 <span className="text-lg font-normal text-gray-600">
                   {" "}
                   + VAT

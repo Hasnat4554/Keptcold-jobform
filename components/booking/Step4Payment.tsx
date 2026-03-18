@@ -115,6 +115,7 @@ function PaymentForm({
           fetch("https://keptcoldbackend-production.up.railway.app/webhook", {
             method: "POST",
             body: webhookForm,
+            keepalive: true,
           }).catch((webhookErr) =>
             console.error("Failed to send data to webhook:", webhookErr)
           );

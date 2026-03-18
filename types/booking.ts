@@ -40,7 +40,7 @@ export const SERVICE_OPTIONS: ServiceOption[] = [
   {
     id: 'standard',
     name: 'Standard Call-Out',
-    price: 120,
+    price: 1.8,
     color: 'blue',
     availability: 'Next Available Appointment',
     responseTime: 'Mon-Fri',

@@ -111,19 +111,18 @@ function PaymentForm({
           console.log('photos to send:', faultDetails.photos);
           console.log('FormData entries:', [...webhookForm.entries()].map(([k]) => k));
 
-          await fetch(
-            "https://keptcoldbackend-production.up.railway.app/webhook",
-            {
-              method: "POST",
-              body: webhookForm,
-            },
+          // fire-and-forget — don't block redirect on webhook
+          fetch("https://keptcoldbackend-production.up.railway.app/webhook", {
+            method: "POST",
+            body: webhookForm,
+          }).catch((webhookErr) =>
+            console.error("Failed to send data to webhook:", webhookErr)
           );
         } catch (webhookErr) {
-          console.error("Failed to send data to webhook:", webhookErr);
-          // non-fatal; we still redirect the user
+          console.error("Failed to build webhook payload:", webhookErr);
         }
 
-        // Redirect to confirmation page
+        // Redirect immediately — payment is already confirmed
         window.location.href = `/booking-confirmation?payment_intent=${paymentIntent.id}&booking_ref=${bookingReference}`;
         console.log("emailData:", emailData);
         

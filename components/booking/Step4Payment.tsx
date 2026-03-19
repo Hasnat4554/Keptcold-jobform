@@ -96,6 +96,12 @@ function PaymentForm({
           webhookForm.append("equipmentType",    faultDetails.equipmentType);
           webhookForm.append("faultDescription", faultDetails.faultDescription);
           webhookForm.append("totalPrice",       String(totalWithVAT));
+          const priorityLabels: Record<string, string> = {
+            standard:  "Standard Call-Out",
+            sameDay:   "Same Day Call-Out",
+            emergency: "Emergency Call-Out",
+          };
+          webhookForm.append("calloutPriority", priorityLabels[serviceType] ?? serviceType);
           const toBase64 = (file: File) => new Promise<{ filename: string; mimeType: string; data: string }>((resolve) => {
             const reader = new FileReader();
             reader.onload = (e) => resolve({

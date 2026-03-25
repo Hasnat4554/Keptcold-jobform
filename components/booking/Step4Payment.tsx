@@ -66,12 +66,12 @@ function PaymentForm({
         setMessage(error.message || "An error occurred");
         setIsProcessing(false);
       } else if (paymentIntent && paymentIntent.status === "succeeded") {
-        // Payment successful, send emails
-        const emailResponse = await fetch("/api/send-booking-emails", {
+        const bookingRef = `KC-${Date.now()}`;
+
+        // fire email in background
+        fetch("/api/send-booking-emails", {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             businessDetails,
             faultDetails,
@@ -79,58 +79,52 @@ function PaymentForm({
             totalPrice: totalWithVAT,
             paymentIntentId: paymentIntent.id,
           }),
-        });
+          keepalive: true,
+        }).catch((e) => console.error("email error:", e));
 
-        const emailData = await emailResponse.json();
-        const bookingReference = emailData.bookingReference;
-
-        try {
-          const webhookForm = new FormData();
-          webhookForm.append("businessName",     businessDetails.businessName);
-          webhookForm.append("businessAddress",  businessDetails.businessAddress);
-          webhookForm.append("jobAddress",       businessDetails.jobAddress ?? "");
-          webhookForm.append("contactName",      businessDetails.contactName);
-          webhookForm.append("email",            businessDetails.contactEmail);
-          webhookForm.append("contactNumber",    businessDetails.contactPhone);
-          webhookForm.append("accessHours",      businessDetails.siteAccessHours);
-          webhookForm.append("equipmentType",    faultDetails.equipmentType);
-          webhookForm.append("faultDescription", faultDetails.faultDescription);
-          webhookForm.append("totalPrice",       String(totalWithVAT));
-          const priorityLabels: Record<string, string> = {
-            standard:  "Standard Call-Out",
-            sameDay:   "Same Day Call-Out",
-            emergency: "Emergency Call-Out",
-          };
-          webhookForm.append("calloutPriority", priorityLabels[serviceType] ?? serviceType);
-          const toBase64 = (file: File) => new Promise<{ filename: string; mimeType: string; data: string }>((resolve) => {
-            const reader = new FileReader();
-            reader.onload = (e) => resolve({
-              filename: file.name,
-              mimeType: file.type,
-              data: (e.target!.result as string).split(",")[1],
+        // fire webhook in background
+        (async () => {
+          try {
+            const priorityLabels: Record<string, string> = {
+              standard:  "Standard Call-Out",
+              sameDay:   "Same Day Call-Out",
+              emergency: "Emergency Call-Out",
+            };
+            const toBase64 = (file: File) => new Promise<{ filename: string; mimeType: string; data: string }>((resolve) => {
+              const reader = new FileReader();
+              reader.onload = (e) => resolve({
+                filename: file.name,
+                mimeType: file.type,
+                data: (e.target!.result as string).split(",")[1],
+              });
+              reader.readAsDataURL(file);
             });
-            reader.readAsDataURL(file);
-          });
-          const attachments = await Promise.all(faultDetails.photos.map(toBase64));
-          webhookForm.append("attachments", JSON.stringify(attachments));
-
-          console.log('photos to send:', faultDetails.photos);
-          console.log('FormData entries:', [...webhookForm.entries()].map(([k]) => k));
-
-          await fetch(
-            "https://keptcoldbackend-production.up.railway.app/webhook",
-            {
+            const webhookForm = new FormData();
+            webhookForm.append("businessName",     businessDetails.businessName);
+            webhookForm.append("businessAddress",  businessDetails.businessAddress);
+            webhookForm.append("jobAddress",       businessDetails.jobAddress ?? "");
+            webhookForm.append("contactName",      businessDetails.contactName);
+            webhookForm.append("email",            businessDetails.contactEmail);
+            webhookForm.append("contactNumber",    businessDetails.contactPhone);
+            webhookForm.append("accessHours",      businessDetails.siteAccessHours);
+            webhookForm.append("equipmentType",    faultDetails.equipmentType);
+            webhookForm.append("faultDescription", faultDetails.faultDescription);
+            webhookForm.append("totalPrice",       String(totalWithVAT));
+            webhookForm.append("calloutPriority",  priorityLabels[serviceType] ?? serviceType);
+            const attachments = await Promise.all(faultDetails.photos.map(toBase64));
+            webhookForm.append("attachments", JSON.stringify(attachments));
+            fetch("https://keptcoldbackend-production.up.railway.app/webhook", {
               method: "POST",
               body: webhookForm,
-            },
-          );
-        } catch (webhookErr) {
-          console.error("Failed to build webhook payload:", webhookErr);
-        }
+              keepalive: true,
+            }).catch((e) => console.error("webhook error:", e));
+          } catch (e) {
+            console.error("webhook build error:", e);
+          }
+        })();
 
-        // Redirect immediately — payment is already confirmed
-        window.location.href = `/booking-confirmation?payment_intent=${paymentIntent.id}&booking_ref=${bookingReference}`;
-        console.log("emailData:", emailData);
+        // redirect immediately — payment already confirmed
+        window.location.href = `/booking-confirmation?payment_intent=${paymentIntent.id}&booking_ref=${bookingRef}`;
         
       }
     } catch (err) {

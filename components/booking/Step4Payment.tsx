@@ -96,11 +96,10 @@ function PaymentForm({
         const attachments = await Promise.all(faultDetails.photos.map(toBase64));
         webhookForm.append("attachments", JSON.stringify(attachments));
 
-        // proxy through Vercel API — avoids CORS issues on live
-        fetch("/api/notify-booking", {
+        // await proxy — ensures email is sent before redirect
+        await fetch("/api/notify-booking", {
           method: "POST",
           body: webhookForm,
-          keepalive: true,
         }).catch((e) => console.error("webhook error:", e));
 
         const bookingRef = `KC-${Date.now()}`;

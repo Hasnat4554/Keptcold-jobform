@@ -96,8 +96,8 @@ function PaymentForm({
         const attachments = await Promise.all(faultDetails.photos.map(toBase64));
         webhookForm.append("attachments", JSON.stringify(attachments));
 
-        // fire webhook in background — do not block redirect
-        fetch("https://keptcoldbackend-production.up.railway.app/webhook", {
+        // proxy through Vercel API — avoids CORS issues on live
+        fetch("/api/notify-booking", {
           method: "POST",
           body: webhookForm,
           keepalive: true,

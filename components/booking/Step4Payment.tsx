@@ -66,63 +66,44 @@ function PaymentForm({
         setMessage(error.message || "An error occurred");
         setIsProcessing(false);
       } else if (paymentIntent && paymentIntent.status === "succeeded") {
-        // await email — must complete before redirect
-        const emailResponse = await fetch("/api/send-booking-emails", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            businessDetails,
-            faultDetails,
-            serviceType,
-            totalPrice: totalWithVAT,
-            paymentIntentId: paymentIntent.id,
-          }),
+        const priorityLabels: Record<string, string> = {
+          standard:  "Standard Call-Out",
+          sameDay:   "Same Day Call-Out",
+          emergency: "Emergency Call-Out",
+        };
+        const toBase64 = (file: File) => new Promise<{ filename: string; mimeType: string; data: string }>((resolve) => {
+          const reader = new FileReader();
+          reader.onload = (e) => resolve({
+            filename: file.name,
+            mimeType: file.type,
+            data: (e.target!.result as string).split(",")[1],
+          });
+          reader.readAsDataURL(file);
         });
-        const emailData = await emailResponse.json();
-        const bookingRef = emailData.bookingReference || `KC-${Date.now()}`;
 
-        // fire webhook in background
-        (async () => {
-          try {
-            const priorityLabels: Record<string, string> = {
-              standard:  "Standard Call-Out",
-              sameDay:   "Same Day Call-Out",
-              emergency: "Emergency Call-Out",
-            };
-            const toBase64 = (file: File) => new Promise<{ filename: string; mimeType: string; data: string }>((resolve) => {
-              const reader = new FileReader();
-              reader.onload = (e) => resolve({
-                filename: file.name,
-                mimeType: file.type,
-                data: (e.target!.result as string).split(",")[1],
-              });
-              reader.readAsDataURL(file);
-            });
-            const webhookForm = new FormData();
-            webhookForm.append("businessName",     businessDetails.businessName);
-            webhookForm.append("businessAddress",  businessDetails.businessAddress);
-            webhookForm.append("jobAddress",       businessDetails.jobAddress ?? "");
-            webhookForm.append("contactName",      businessDetails.contactName);
-            webhookForm.append("email",            businessDetails.contactEmail);
-            webhookForm.append("contactNumber",    businessDetails.contactPhone);
-            webhookForm.append("accessHours",      businessDetails.siteAccessHours);
-            webhookForm.append("equipmentType",    faultDetails.equipmentType);
-            webhookForm.append("faultDescription", faultDetails.faultDescription);
-            webhookForm.append("totalPrice",       String(totalWithVAT));
-            webhookForm.append("calloutPriority",  priorityLabels[serviceType] ?? serviceType);
-            const attachments = await Promise.all(faultDetails.photos.map(toBase64));
-            webhookForm.append("attachments", JSON.stringify(attachments));
-            fetch("https://keptcoldbackend-production.up.railway.app/webhook", {
-              method: "POST",
-              body: webhookForm,
-              keepalive: true,
-            }).catch((e) => console.error("webhook error:", e));
-          } catch (e) {
-            console.error("webhook build error:", e);
-          }
-        })();
+        const webhookForm = new FormData();
+        webhookForm.append("businessName",     businessDetails.businessName);
+        webhookForm.append("businessAddress",  businessDetails.businessAddress);
+        webhookForm.append("jobAddress",       businessDetails.jobAddress ?? "");
+        webhookForm.append("contactName",      businessDetails.contactName);
+        webhookForm.append("email",            businessDetails.contactEmail);
+        webhookForm.append("contactNumber",    businessDetails.contactPhone);
+        webhookForm.append("accessHours",      businessDetails.siteAccessHours);
+        webhookForm.append("equipmentType",    faultDetails.equipmentType);
+        webhookForm.append("faultDescription", faultDetails.faultDescription);
+        webhookForm.append("totalPrice",       String(totalWithVAT));
+        webhookForm.append("calloutPriority",  priorityLabels[serviceType] ?? serviceType);
+        const attachments = await Promise.all(faultDetails.photos.map(toBase64));
+        webhookForm.append("attachments", JSON.stringify(attachments));
 
-        // redirect immediately — payment already confirmed
+        // await Railway webhook — sends email via Google Apps Script
+        const webhookRes = await fetch("https://keptcoldbackend-production.up.railway.app/webhook", {
+          method: "POST",
+          body: webhookForm,
+        });
+        const webhookData = await webhookRes.json().catch(() => ({}));
+        const bookingRef = (webhookData as { bookingReference?: string }).bookingReference || `KC-${Date.now()}`;
+
         window.location.href = `/booking-confirmation?payment_intent=${paymentIntent.id}&booking_ref=${bookingRef}`;
         
       }

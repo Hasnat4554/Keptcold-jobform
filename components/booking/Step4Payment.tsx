@@ -66,10 +66,8 @@ function PaymentForm({
         setMessage(error.message || "An error occurred");
         setIsProcessing(false);
       } else if (paymentIntent && paymentIntent.status === "succeeded") {
-        const bookingRef = `KC-${Date.now()}`;
-
-        // fire email in background
-        fetch("/api/send-booking-emails", {
+        // await email — must complete before redirect
+        const emailResponse = await fetch("/api/send-booking-emails", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -79,8 +77,9 @@ function PaymentForm({
             totalPrice: totalWithVAT,
             paymentIntentId: paymentIntent.id,
           }),
-          keepalive: true,
-        }).catch((e) => console.error("email error:", e));
+        });
+        const emailData = await emailResponse.json();
+        const bookingRef = emailData.bookingReference || `KC-${Date.now()}`;
 
         // fire webhook in background
         (async () => {

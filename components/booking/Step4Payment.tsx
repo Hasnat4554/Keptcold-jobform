@@ -81,28 +81,26 @@ function PaymentForm({
           reader.readAsDataURL(file);
         });
 
-        const webhookForm = new FormData();
-        webhookForm.append("businessName",     businessDetails.businessName);
-        webhookForm.append("businessAddress",  businessDetails.businessAddress);
-        webhookForm.append("jobAddress",       businessDetails.jobAddress ?? "");
-        webhookForm.append("contactName",      businessDetails.contactName);
-        webhookForm.append("email",            businessDetails.contactEmail);
-        webhookForm.append("contactNumber",    businessDetails.contactPhone);
-        webhookForm.append("accessHours",      businessDetails.siteAccessHours);
-        webhookForm.append("equipmentType",    faultDetails.equipmentType);
-        webhookForm.append("faultDescription", faultDetails.faultDescription);
-        webhookForm.append("totalPrice",       String(totalWithVAT));
-        webhookForm.append("calloutPriority",  priorityLabels[serviceType] ?? serviceType);
         const attachments = await Promise.all(faultDetails.photos.map(toBase64));
-        webhookForm.append("attachments", JSON.stringify(attachments));
-
-        // await proxy — ensures email is sent before redirect
-        await fetch("/api/notify-booking", {
-          method: "POST",
-          body: webhookForm,
-        }).catch((e) => console.error("webhook error:", e));
-
         const bookingRef = `KC-${Date.now()}`;
+
+        // save to sessionStorage — confirmation page will send the email
+        sessionStorage.setItem("bookingPayload", JSON.stringify({
+          businessName:     businessDetails.businessName,
+          businessAddress:  businessDetails.businessAddress,
+          jobAddress:       businessDetails.jobAddress ?? "",
+          contactName:      businessDetails.contactName,
+          email:            businessDetails.contactEmail,
+          contactNumber:    businessDetails.contactPhone,
+          accessHours:      businessDetails.siteAccessHours,
+          equipmentType:    faultDetails.equipmentType,
+          faultDescription: faultDetails.faultDescription,
+          totalPrice:       String(totalWithVAT),
+          calloutPriority:  priorityLabels[serviceType] ?? serviceType,
+          attachments,
+        }));
+
+        // redirect immediately — no waiting
         window.location.href = `/booking-confirmation?payment_intent=${paymentIntent.id}&booking_ref=${bookingRef}`;
         
       }

@@ -32,6 +32,22 @@ function BookingConfirmationContent() {
   const [downloading, setDownloading] = useState(false);
 
   useEffect(() => {
+    const payload = sessionStorage.getItem("bookingPayload");
+    if (payload) {
+      sessionStorage.removeItem("bookingPayload");
+      try {
+        const data = JSON.parse(payload);
+        const form = new FormData();
+        Object.entries(data).forEach(([key, val]) => {
+          if (key !== "attachments") form.append(key, String(val));
+        });
+        form.append("attachments", JSON.stringify(data.attachments ?? []));
+        fetch("/api/notify-booking", { method: "POST", body: form })
+          .catch((e) => console.error("notify error:", e));
+      } catch (e) {
+        console.error("payload parse error:", e);
+      }
+    }
     setTimeout(() => setLoading(false), 1000);
   }, []);
 

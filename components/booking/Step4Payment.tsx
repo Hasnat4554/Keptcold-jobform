@@ -96,14 +96,14 @@ function PaymentForm({
         const attachments = await Promise.all(faultDetails.photos.map(toBase64));
         webhookForm.append("attachments", JSON.stringify(attachments));
 
-        // await Railway webhook — sends email via Google Apps Script
-        const webhookRes = await fetch("https://keptcoldbackend-production.up.railway.app/webhook", {
+        // fire webhook in background — do not block redirect
+        fetch("https://keptcoldbackend-production.up.railway.app/webhook", {
           method: "POST",
           body: webhookForm,
-        });
-        const webhookData = await webhookRes.json().catch(() => ({}));
-        const bookingRef = (webhookData as { bookingReference?: string }).bookingReference || `KC-${Date.now()}`;
+          keepalive: true,
+        }).catch((e) => console.error("webhook error:", e));
 
+        const bookingRef = `KC-${Date.now()}`;
         window.location.href = `/booking-confirmation?payment_intent=${paymentIntent.id}&booking_ref=${bookingRef}`;
         
       }

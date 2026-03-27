@@ -82,7 +82,7 @@ function PaymentForm({
         });
 
         const attachments = await Promise.all(faultDetails.photos.map(toBase64));
-        const bookingRef = `KC-${Date.now()}`;
+        const bookingRef = `KC-${Date.now().toString().slice(-6)}`;
 
         // save to sessionStorage — confirmation page will send the email
         sessionStorage.setItem("bookingPayload", JSON.stringify({

@@ -84,8 +84,7 @@ function PaymentForm({
         const attachments = await Promise.all(faultDetails.photos.map(toBase64));
         const bookingRef = `KC-${Date.now().toString().slice(-6)}`;
 
-        // save to sessionStorage — confirmation page will send the email
-        sessionStorage.setItem("bookingPayload", JSON.stringify({
+        const payload = {
           businessName:     businessDetails.businessName,
           businessAddress:  businessDetails.businessAddress,
           jobAddress:       businessDetails.jobAddress ?? "",
@@ -98,9 +97,22 @@ function PaymentForm({
           totalPrice:       String(totalWithVAT),
           calloutPriority:  priorityLabels[serviceType] ?? serviceType,
           attachments,
-        }));
+        };
 
-        // redirect immediately — no waiting
+        try {
+          sessionStorage.setItem("bookingPayload", JSON.stringify(payload));
+        } catch {
+          // sessionStorage full (large photos) — send directly
+          const form = new FormData();
+          Object.entries(payload).forEach(([k, v]) => {
+            if (k !== "attachments") form.append(k, String(v));
+          });
+          form.append("attachments", JSON.stringify(payload.attachments));
+          fetch("/api/notify-booking", { method: "POST", body: form, keepalive: true })
+            .catch(() => {});
+        }
+
+        // always redirect — payment already confirmed
         window.location.href = `/booking-confirmation?payment_intent=${paymentIntent.id}&booking_ref=${bookingRef}`;
         
       }

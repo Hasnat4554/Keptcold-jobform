@@ -81,29 +81,28 @@ function PaymentForm({
           reader.readAsDataURL(file);
         });
 
+        const attachments = await Promise.all(faultDetails.photos.map(toBase64));
         const bookingRef = `KC-${Date.now().toString().slice(-6)}`;
 
-        // convert photos and notify in background — don't block redirect
-        Promise.all(faultDetails.photos.map(toBase64)).then((attachments) => {
-          fetch("/api/notify-booking", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              businessName:     businessDetails.businessName,
-              businessAddress:  businessDetails.businessAddress,
-              jobAddress:       businessDetails.jobAddress ?? "",
-              contactName:      businessDetails.contactName,
-              email:            businessDetails.contactEmail,
-              contactNumber:    businessDetails.contactPhone,
-              accessHours:      businessDetails.siteAccessHours,
-              equipmentType:    faultDetails.equipmentType,
-              faultDescription: faultDetails.faultDescription,
-              totalPrice:       String(totalWithVAT),
-              calloutPriority:  priorityLabels[serviceType] ?? serviceType,
-              attachments,
-            }),
-          }).catch(() => {});
-        });
+        // await Vercel proxy — responds instantly (waitUntil), Railway processes in background
+        await fetch("/api/notify-booking", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            businessName:     businessDetails.businessName,
+            businessAddress:  businessDetails.businessAddress,
+            jobAddress:       businessDetails.jobAddress ?? "",
+            contactName:      businessDetails.contactName,
+            email:            businessDetails.contactEmail,
+            contactNumber:    businessDetails.contactPhone,
+            accessHours:      businessDetails.siteAccessHours,
+            equipmentType:    faultDetails.equipmentType,
+            faultDescription: faultDetails.faultDescription,
+            totalPrice:       String(totalWithVAT),
+            calloutPriority:  priorityLabels[serviceType] ?? serviceType,
+            attachments,
+          }),
+        }).catch(() => {});
 
         window.location.href = `/booking-confirmation?payment_intent=${paymentIntent.id}&booking_ref=${bookingRef}`;
 

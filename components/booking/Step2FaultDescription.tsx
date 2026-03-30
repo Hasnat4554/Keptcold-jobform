@@ -1,7 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
-import { useDropzone } from "react-dropzone";
+import { useState } from "react";
 import { FaultDetails, EQUIPMENT_TYPES } from "@/types/booking";
 
 interface Props {
@@ -24,28 +23,6 @@ export default function Step2FaultDescription({
     if (errors[field]) {
       setErrors({ ...errors, [field]: "" });
     }
-  };
-
-  const onDrop = useCallback(
-    (acceptedFiles: File[]) => {
-      const newPhotos = [...data.photos, ...acceptedFiles];
-      onUpdate({ ...data, photos: newPhotos });
-    },
-    [data, onUpdate],
-  );
-
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop,
-    accept: {
-      "image/*": [".jpeg", ".jpg", ".png", ".webp"],
-    },
-    maxSize: 5242880, // 5MB
-    multiple: true,
-  });
-
-  const removePhoto = (index: number) => {
-    const newPhotos = data.photos.filter((_, i) => i !== index);
-    onUpdate({ ...data, photos: newPhotos });
   };
 
   const validate = () => {
@@ -121,83 +98,6 @@ export default function Step2FaultDescription({
             <p className="mt-1 text-sm text-red-500">
               {errors.faultDescription}
             </p>
-          )}
-        </div>
-
-        {/* Photo Upload */}
-        <div>
-          <label className="block text-sm font-medium text-black mb-2">
-            Upload Photos (optional)
-          </label>
-          <p className="text-sm text-black mb-3">
-            You can optionally upload photos of the fault or equipment
-          </p>
-
-          <div
-            {...getRootProps()}
-            className={`border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-colors
-              ${isDragActive ? "border-[#003366] bg-blue-50" : "border-gray-300 hover:border-[#003366]"}
-            `}
-          >
-            <input {...getInputProps()} />
-            <div className="flex flex-col items-center">
-              <svg
-                className="w-12 h-12 text-gray-400 mb-3"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
-                />
-              </svg>
-              <p className="text-black mb-1">
-                {isDragActive
-                  ? "Drop the files here"
-                  : "Drag & drop photos here, or click to select"}
-              </p>
-              <p className="text-sm text-black">
-                Maximum file size: 5MB per image
-              </p>
-            </div>
-          </div>
-
-          {/* Uploaded Photos Preview */}
-          {data.photos.length > 0 && (
-            <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-4">
-              {data.photos.map((photo, index) => (
-                <div key={index} className="relative group">
-                  <img
-                    src={URL.createObjectURL(photo)}
-                    alt={`Upload ${index + 1}`}
-                    className="w-full h-24 object-cover rounded-lg"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => removePhoto(index)}
-                    className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1
-                      opacity-0 group-hover:opacity-100 transition-opacity"
-                  >
-                    <svg
-                      className="w-4 h-4"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M6 18L18 6M6 6l12 12"
-                      />
-                    </svg>
-                  </button>
-                </div>
-              ))}
-            </div>
           )}
         </div>
 

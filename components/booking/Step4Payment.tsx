@@ -53,19 +53,6 @@ function PaymentForm({
     setIsProcessing(true);
     setMessage("");
 
-    const toBase64 = (file: File) => new Promise<{ filename: string; mimeType: string; data: string }>((resolve) => {
-      const reader = new FileReader();
-      reader.onload = (e) => resolve({
-        filename: file.name,
-        mimeType: file.type,
-        data: (e.target!.result as string).split(",")[1],
-      });
-      reader.readAsDataURL(file);
-    });
-
-    // start photo conversion in parallel with payment
-    const attachmentsPromise = Promise.all(faultDetails.photos.map(toBase64));
-
     try {
       const { error, paymentIntent } = await stripe.confirmPayment({
         elements,
@@ -85,7 +72,6 @@ function PaymentForm({
           emergency: "Emergency Call-Out",
         };
 
-        const attachments = await attachmentsPromise;
         const bookingRef = `KC-${Date.now().toString().slice(-6)}`;
 
         // await Vercel proxy — responds instantly (waitUntil), Railway processes in background
@@ -104,7 +90,6 @@ function PaymentForm({
             faultDescription: faultDetails.faultDescription,
             totalPrice:       String(totalWithVAT),
             calloutPriority:  priorityLabels[serviceType] ?? serviceType,
-            attachments,
           }),
         }).catch(() => {});
 

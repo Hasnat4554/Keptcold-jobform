@@ -14,7 +14,6 @@ export interface BusinessDetails {
 export interface FaultDetails {
   equipmentType: string;
   faultDescription: string;
-  photos: File[];
 }
 
 export type ServiceType = 'standard' | 'sameDay' | 'emergency';

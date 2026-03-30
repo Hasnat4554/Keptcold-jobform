@@ -4,17 +4,20 @@ import { waitUntil } from '@vercel/functions';
 export async function POST(request: NextRequest) {
   const body = await request.formData();
 
-  // rebuild FormData to forward to Railway
   const form = new FormData();
   body.forEach((value, key) => {
     form.append(key, value);
   });
 
-  // respond immediately — don't make client wait
+  console.log('[notify-booking] fields:', [...body.keys()]);
+
   waitUntil(
     fetch('https://keptcoldbackend-production.up.railway.app/webhook', {
       method: 'POST',
       body: form,
+    }).then(async (res) => {
+      const text = await res.text();
+      console.log('[notify-booking] railway status:', res.status, text);
     }).catch((err) => console.error('[notify-booking] railway error:', err))
   );
 

@@ -6,11 +6,20 @@ export async function POST(request: NextRequest) {
 
   console.log('[notify-booking] fields:', Object.keys(payload));
 
+  // convert JSON to FormData — Railway uses multer (expects multipart/form-data)
+  const form = new FormData();
+  Object.entries(payload).forEach(([key, val]) => {
+    if (key === 'attachments') {
+      form.append(key, JSON.stringify(val ?? []));
+    } else {
+      form.append(key, String(val ?? ''));
+    }
+  });
+
   waitUntil(
     fetch('https://keptcoldbackend-production.up.railway.app/webhook', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
+      body: form,
     }).then(async (res) => {
       const text = await res.text();
       console.log('[notify-booking] railway:', res.status, text);

@@ -8,6 +8,9 @@ export async function POST(request: NextRequest) {
 
   // convert JSON to FormData — Railway uses multer (expects multipart/form-data)
   const form = new FormData();
+  // if jobAddress is empty, fall back to businessAddress
+  if (!payload.jobAddress) payload.jobAddress = payload.businessAddress;
+
   Object.entries(payload).forEach(([key, val]) => {
     if (key === 'attachments') {
       form.append(key, JSON.stringify(val ?? []));

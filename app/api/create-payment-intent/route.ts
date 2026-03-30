@@ -8,7 +8,7 @@ const getStripe = () => {
     throw new Error('STRIPE_SECRET_KEY is not set');
   }
   return new Stripe(process.env.STRIPE_SECRET_KEY, {
-    // align with installed Stripe types – must be one of the allowed literals
+   
     apiVersion: '2026-02-25.clover',
   });
 };

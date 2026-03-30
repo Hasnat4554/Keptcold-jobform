@@ -1,21 +1,22 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { waitUntil } from '@vercel/functions';
 
 export async function POST(request: NextRequest) {
-  try {
-    const body = await request.formData();
+  const body = await request.formData();
 
-    const railwayRes = await fetch(
-      'https://keptcoldbackend-production.up.railway.app/webhook',
-      {
-        method: 'POST',
-        body,
-      }
-    );
+  // rebuild FormData to forward to Railway
+  const form = new FormData();
+  body.forEach((value, key) => {
+    form.append(key, value);
+  });
 
-    const data = await railwayRes.json().catch(() => ({}));
-    return NextResponse.json(data, { status: railwayRes.status });
-  } catch (err) {
-    console.error('[notify-booking] error:', err);
-    return NextResponse.json({ success: false }, { status: 500 });
-  }
+  // respond immediately — don't make client wait
+  waitUntil(
+    fetch('https://keptcoldbackend-production.up.railway.app/webhook', {
+      method: 'POST',
+      body: form,
+    }).catch((err) => console.error('[notify-booking] railway error:', err))
+  );
+
+  return NextResponse.json({ success: true });
 }

@@ -26,7 +26,6 @@ function BookServiceContent() {
   const [faultDetails, setFaultDetails] = useState<FaultDetails>({
     equipmentType: '',
     faultDescription: '',
-    photos: []
   });
   const [serviceType, setServiceType] = useState<ServiceType>('standard');
 

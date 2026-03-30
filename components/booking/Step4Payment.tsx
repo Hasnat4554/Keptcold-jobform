@@ -84,35 +84,26 @@ function PaymentForm({
         const attachments = await Promise.all(faultDetails.photos.map(toBase64));
         const bookingRef = `KC-${Date.now().toString().slice(-6)}`;
 
-        const payload = {
-          businessName:     businessDetails.businessName,
-          businessAddress:  businessDetails.businessAddress,
-          jobAddress:       businessDetails.jobAddress ?? "",
-          contactName:      businessDetails.contactName,
-          email:            businessDetails.contactEmail,
-          contactNumber:    businessDetails.contactPhone,
-          accessHours:      businessDetails.siteAccessHours,
-          equipmentType:    faultDetails.equipmentType,
-          faultDescription: faultDetails.faultDescription,
-          totalPrice:       String(totalWithVAT),
-          calloutPriority:  priorityLabels[serviceType] ?? serviceType,
-          attachments,
-        };
+        // send to Vercel proxy — responds immediately, processes Railway in background
+        await fetch("/api/notify-booking", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            businessName:     businessDetails.businessName,
+            businessAddress:  businessDetails.businessAddress,
+            jobAddress:       businessDetails.jobAddress ?? "",
+            contactName:      businessDetails.contactName,
+            email:            businessDetails.contactEmail,
+            contactNumber:    businessDetails.contactPhone,
+            accessHours:      businessDetails.siteAccessHours,
+            equipmentType:    faultDetails.equipmentType,
+            faultDescription: faultDetails.faultDescription,
+            totalPrice:       String(totalWithVAT),
+            calloutPriority:  priorityLabels[serviceType] ?? serviceType,
+            attachments,
+          }),
+        }).catch(() => {});
 
-        try {
-          sessionStorage.setItem("bookingPayload", JSON.stringify(payload));
-        } catch {
-          // sessionStorage full (large photos) — send directly
-          const form = new FormData();
-          Object.entries(payload).forEach(([k, v]) => {
-            if (k !== "attachments") form.append(k, String(v));
-          });
-          form.append("attachments", JSON.stringify(payload.attachments));
-          fetch("/api/notify-booking", { method: "POST", body: form, keepalive: true })
-            .catch(() => {});
-        }
-
-        // always redirect — payment already confirmed
         window.location.href = `/booking-confirmation?payment_intent=${paymentIntent.id}&booking_ref=${bookingRef}`;
         
       }

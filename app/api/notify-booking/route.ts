@@ -2,23 +2,19 @@ import { NextRequest, NextResponse } from 'next/server';
 import { waitUntil } from '@vercel/functions';
 
 export async function POST(request: NextRequest) {
-  const body = await request.formData();
+  const payload = await request.json();
 
-  const form = new FormData();
-  body.forEach((value, key) => {
-    form.append(key, value);
-  });
-
-  console.log('[notify-booking] fields:', [...body.keys()]);
+  console.log('[notify-booking] fields:', Object.keys(payload));
 
   waitUntil(
     fetch('https://keptcoldbackend-production.up.railway.app/webhook', {
       method: 'POST',
-      body: form,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
     }).then(async (res) => {
       const text = await res.text();
-      console.log('[notify-booking] railway status:', res.status, text);
-    }).catch((err) => console.error('[notify-booking] railway error:', err))
+      console.log('[notify-booking] railway:', res.status, text);
+    }).catch((err) => console.error('[notify-booking] error:', err))
   );
 
   return NextResponse.json({ success: true });

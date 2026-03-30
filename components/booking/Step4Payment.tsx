@@ -88,9 +88,8 @@ function PaymentForm({
         const attachments = await attachmentsPromise;
         const bookingRef = `KC-${Date.now().toString().slice(-6)}`;
 
-        // Fire-and-forget — do NOT await, redirect immediately after payment
-        // Vercel waitUntil keeps the Railway call alive in background
-        fetch("/api/notify-booking", {
+        // await Vercel proxy — responds instantly (waitUntil), Railway processes in background
+        await fetch("/api/notify-booking", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
